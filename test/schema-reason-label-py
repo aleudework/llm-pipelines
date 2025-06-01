@@ -1,0 +1,39 @@
+from pydantic import BaseModel
+from typing import List
+import lmstudio as lms
+import pathlib
+import json
+
+# 📘 1. Definér schema for output (f.eks. klassifikation)
+class Classification(BaseModel):
+    label: str      # ét ord
+    reason: str     # forklaring
+
+# 🧠 2. Load modellen én gang
+model = lms.llm("meta-llama-3.1-8b-instruct")
+
+# 📥 3. Inputtekster (kunne også komme fra en fil)
+inputs = [
+    "I love watching football on the weekends.",
+    "The economy is struggling due to inflation.",
+    "She painted a beautiful landscape."
+]
+
+# 📤 4. Funktion der kører LLM med prompt og parser output
+def classify(text: str) -> Classification:
+    prompt = (
+        f"Classify the following text into one word (like sports, finance, art).\n"
+        f"Also explain why in 1-2 sentences.\n\n"
+        f"Text: '{text}'\n"
+        f"Respond as JSON with 'label' and 'reason'."
+    )
+    result = model.respond(prompt, response_format=Classification)
+    return result
+
+# 🔁 5. Kør pipeline for alle input og gem resultat
+results: List[Classification] = []
+
+for text in inputs:
+    output = classify(text)
+    results.append(output)
+    print(f"{text} → {output}")

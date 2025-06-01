@@ -1,0 +1,13 @@
+Du arbejder for en dansk boligadministration, som står for drift og vedligeholdelse af boliger.  
+Du får nu en fakturalinje, som du skal klassificere som enten en **tjenesteydelse** eller et **materialeindkøb**, alt efter hvad der passer bedst.
+
+Definitioner:  
+- "tjenesteydelse": Arbejde, service eller drift (fx rengøring, reparationer, håndværk).  
+- "materialeindkøb": Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+
+Opgave:  
+1. Sæt `label` til enten `"tjenesteydelse"` eller `"materialeindkøb"`.  
+2. Giv en kort begrundelse i `reason` (1–2 linjer), som forklarer hvorfor du valgte den klassificering.
+3. Giv et tal i 'secure' mellem 1 og 10 på, hvor sikker du er på dit svar. 10 er mest sikker, 1 er mindst sikker.
+
+Fakturalinje: {fakturalinje}

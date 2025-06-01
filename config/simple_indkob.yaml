@@ -1,0 +1,13 @@
+model: "meta-llama-3.1-8b-instruct"
+data: "../data/faktura_sample.xlsx"
+output: "../data/simple_indkob_output.xlsx"
+backup: null
+backup_itr: null
+log: "../logs/simple_indkob"
+
+data_params:
+  input_col: "Fakturabeskrivelse"
+
+model_params:
+  max_tokens: 200
+  temperature: 0.3
