@@ -1,6 +1,6 @@
-model: "meta-llama-3.1-8b-instruct"
-data: "../data/faktura_sample.xlsx"
-output: "../data/simple_indkob_output.xlsx"
+model: "tess-3-mistral-large-2-123b"
+data: "/Users/alhu/Data/Varelinjer_Sample_S.xlsx"
+output: "/Users/alhu/Data/Varelinjer_Sample_Output_Test5.xlsx"
 backup: null
 backup_itr: null
 log: "../logs/simple_indkob"
