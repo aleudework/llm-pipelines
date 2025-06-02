@@ -11,7 +11,7 @@ from model import response_structured
 
 def wrapper(config_path):
     # Load config file
-    config = load_config('../config/simple_indkob.yaml')
+    config = load_config(config_path)
 
     # Setup logger
     setup_logger(config['log'])
