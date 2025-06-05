@@ -52,7 +52,7 @@ def sys_prompt():
 if __name__ == '__main__':
 
 
-    model_name = 'qwen/qwen3-235b-a22b'
+    model_name = 'phi-4'
     
     setup_logger()
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     model = lms.llm(model_name)
 
 
-    result = response_structured(system_prompt, 0, model, Indkøb, config=None, log_every=100)
+    result = response(system_prompt, 0, model, config=None, log_every=100)
 
     print(result)
 

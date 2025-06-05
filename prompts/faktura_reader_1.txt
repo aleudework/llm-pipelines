@@ -1,0 +1,16 @@
+Du får én faktura, der kan være fordelt på ét eller flere billeder (sider).
+
+Din opgave er at udtrække alle fakturalinjer fra denne faktura og udfylde følgende felter:
+
+Fakturaen er på dansk, og du skal være meget varsom med, at du skriver korrekt. Vær obs på rækker og kolonner virkelig er de korrekte.
+
+- kreditor: Navnet på den virksomhed, der har sendt fakturaen.
+- fakturalinjer: En liste, hvor hver linje består af:
+    - fakturalinje_beskrivelse: En beskrivelse af varen eller ydelsen på linjen.
+    - antal: Det antal varer eller ydelser, der står på linjen.
+    - linje_beløb: Det beløb, der gælder for linjen (prisen for antal x enhedspris).
+- secure: Hvor sikker du samlet set er på, at udtrækket er korrekt. Skriv et heltal fra 1 til 10, hvor 1 betyder meget usikker og 10 betyder helt sikker.
+
+Vær kritisk med din secure score, så den er realistisk.
+
+Udfyld alle felter så præcist som muligt baseret på det, du kan aflæse fra fakturaen.

@@ -1,0 +1,17 @@
+### Undersøg billedekvaliteten af pdf til faktura. Umiddelbart måske ikke så høj kvalitet, også undersøg hvad der sker når der ryger 2 billeder ind
+
+model: "qwen2.5-vl-72b-instruct"
+data: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Sample.xlsx"
+output: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Output.xlsx"
+pdf_folder: "/Users/alhu/Data/Faktura_Samples_Small"
+backup: /Users/alhu/Data/Faktura_Samples_Small/Backup
+backup_itr: 3
+log: "../logs/faktura_reader"
+
+data_params:
+  fakt_id: "Fakt_ID"
+  
+
+model_params:
+  max_tokens: 750
+  temperature: 0.2

@@ -36,8 +36,13 @@ def delete_backup(backup_file_path: str):
 
 def create_backup(df, idx, backup_file_path):
     """
-    Create parquet DF backup after a given iterations
+    Create parquet DF backup after a given iterations.
+    Gemmer altid som .parquet-fil (fjerner tidligere extension hvis den findes).
     """
     if backup_file_path:
-        df.iloc[:idx+1].to_parquet(backup_file_path, index=False)
-        logging.info(f'Backup created with {idx +1 } rows')
+        # Fjern eksisterende extension, hvis der er én
+        base = os.path.splitext(backup_file_path)[0]
+        parquet_path = base + '.parquet'
+
+        df.iloc[:idx+1].to_parquet(parquet_path, index=False)
+        logging.info(f'Backup created with {idx + 1} rows at {parquet_path}')

@@ -1,0 +1,16 @@
+model_vl: "qwen2-vl-2b-instruct"
+model: "google/gemma-3-4b"
+data: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Sample.xlsx"
+output: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Output.xlsx"
+pdf_folder: "/Users/alhu/Data/Faktura_Samples_Small"
+backup: /Users/alhu/Data/Faktura_Samples_Small/Backup
+backup_itr: 3
+log: "../logs/faktura_reader_dual"
+
+data_params:
+  fakt_id: "Fakt_ID"
+  
+
+model_params:
+  max_tokens: 750
+  temperature: 0.2

@@ -1,0 +1,14 @@
+model: "qwen/qwen3-235b-a22b"
+data: "/Users/alhu/Data/Testdata_Varelinjer/Varelinjer_SM.xlsx"
+output: "/Users/alhu/Data/Reason_Indkob/Indkob_SM_1.xlsx"
+labels: ['Materialeindkøb', 'Tjenesteydelse']
+backup: "/Users/alhu/Data/Reason_Indkob/Backup1"
+backup_itr: 25
+log: "../logs/reason_indkob"
+
+data_params:
+  input_col: "Fakturabeskrivelse"
+
+model_params:
+  max_tokens: 500
+  temperature: 0.3

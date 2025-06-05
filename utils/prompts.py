@@ -17,3 +17,12 @@ def build_prompt(path: str, variables: dict ) -> str:
     
     # Unpack dict and use it for prompt, like this: content.format(name="Alice", thing="chess")
     return content.format(**variables)
+
+def load_prompt(path: str) -> str:
+    """
+    Simple load a prompt from txt
+    """
+    with open(path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    return content

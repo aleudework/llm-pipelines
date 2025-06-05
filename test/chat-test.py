@@ -55,9 +55,9 @@ def create_prompt(row, input_col):
 
 if __name__ == '__main__':
 
-    data_path = ''
-    output_path = ''
-    model_name = ''
+    data_path = '../data/Faktura_Benchmark_Data.xlsx'
+    output_path = '../data/Faktura_Benchmark_Output.xlsx'
+    model_name = 'phi-4'
     input_col = 'Fakturabeskrivelse'
 
     df = load_df(data_path)
@@ -68,12 +68,12 @@ if __name__ == '__main__':
 
     system_prompt = sys_prompt()
 
-    logging('CHAT MODE')
-    logging('Data loaded')
+    logging.info('CHAT MODE')
+    logging.info('Data loaded')
 
     model = lms.llm(model_name)
 
-    logging('Model loaded')
+    logging.info('Model loaded')
 
 
     for super_idx in range(0, total_rows, batch_size):
@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
             chat.add_user_message(prompt)
 
-            prediction = model.respond(chat, response_format=Indkøb)
+            prediction = model.respond(chat, response_format=Indkøb).parsed
 
             if isinstance(prediction, str):
                 prediction = json.loads(prediction)
@@ -96,6 +96,6 @@ if __name__ == '__main__':
             df.at[idx, 'Score'] = prediction['secure']
             df.at[idx, 'Begrundelse'] = prediction['reason']
 
-            logging(f"Iteration {idx}")   
+            logging.info(f"Iteration {idx}")   
 
     write_df(df, output_path)
