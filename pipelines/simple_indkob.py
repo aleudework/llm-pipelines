@@ -111,11 +111,11 @@ if __name__ == '__main__':
 
         # Create backup
         if backup_itr and ((idx + 1) % backup_itr == 0):
-            create_backup(df, idx, config['backup'])
+            create_backup(df, idx, config)
 
     # Write final output
     write_df(df, config['output'])
     print('Output written')
 
     # Delete backup as it is not needed anymore
-    delete_backup(config['backup'])
+    delete_backup(config)

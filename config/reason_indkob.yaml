@@ -1,4 +1,5 @@
 model: "qwen/qwen3-235b-a22b"
+project: "reason_indkob"
 data: "/Users/alhu/Data/Testdata_Varelinjer/Varelinjer_SM.xlsx"
 output: "/Users/alhu/Data/Reason_Indkob/Indkob_SM_1.xlsx"
 labels: ['Materialeindkøb', 'Tjenesteydelse']

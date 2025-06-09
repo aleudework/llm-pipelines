@@ -121,7 +121,7 @@ if __name__ == '__main__':
     # Load config file
     config = load_config(config_path)
     # Setup logger
-    setup_logger(config['log'])
+    setup_logger(config)
 
     # Load data
     df = load_df(config['data'])
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     prompt = load_prompt('../prompts/faktura_reader_1.txt')
 
     # Load backup if possible
-    all_new_fakturalinjer, idx = load_backup(config['backup'])
+    all_new_fakturalinjer, idx = load_backup(config)
 
     # LOOP
     for idx in range(idx, len(df)):
@@ -153,7 +153,7 @@ if __name__ == '__main__':
     write_df(df_final, config['output'])
 
     # Delete backup
-    delete_backup(config['backup'])
+    delete_backup(config)
 
     # Remove temp folder
     remove_temp_folder(temp_path)

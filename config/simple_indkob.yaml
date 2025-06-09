@@ -1,4 +1,5 @@
 model: "tess-3-mistral-large-2-123b"
+project: "simple_indkob"
 data: "/Users/alhu/Data/Varelinjer_Sample_S.xlsx"
 output: "/Users/alhu/Data/Varelinjer_Sample_Output_Test5.xlsx"
 backup: null
@@ -11,3 +12,6 @@ data_params:
 model_params:
   max_tokens: 200
   temperature: 0.3
+
+
+  # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.

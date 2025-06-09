@@ -2,41 +2,42 @@ import os
 import logging
 from datetime import datetime
 
-def setup_logger(log_folder=None, log_name='log'):
+def get_log_path(config):
     """
-    The function does:
-    1) Check if log_folder exists and otherwise creates it
-    2) Sets up a logging handler 
-    3) If log_folder is none, then it just set ups a logging handler
+    Returns the robust log folder path based on project name from config.
+    Always uses ../log/{project_name}
     """
-    # Set up logging in logfile
-    if log_folder is not None:
-        os.makedirs(log_folder, exist_ok=True)  # Opret alle nødvendige mapper
-        date_str = datetime.now().strftime('%Y-%m-%d')
-        log_path = os.path.join(log_folder, f"{log_name}_{date_str}.log")
+    project_name = config['project']
+    return os.path.join('../log', project_name)
 
-        # Remove old handlers
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
+def setup_logger(config, log_name="log"):
+    """
+    Sets up a logging handler that logs to a file in the project-specific log folder.
+    If the log folder does not exist, it will be created.
 
-        logging.basicConfig(
-            filename=log_path,
-            filemode='w',  # Overskriv hver gang
-            format='%(asctime)s %(levelname)s: %(message)s',
-            datefmt='%H:%M:%S',
-            level=logging.INFO
-        )
-        print(f"Logger sat op: {log_path}")
+    1) Checks if the log folder exists; creates it if necessary.
+    2) Sets up a logging handler that writes to a dated log file.
+    3) Removes any old logging handlers to avoid duplicate logs.
+    """
 
-    # Only set up logging in terminal
-    else:
-        # Remove old handlers
-        for handler in logging.root.handlers[:]:
-            logging.root.removeHandler(handler)
+    # Get the path for the log folder
+    log_folder = get_log_path(config)
+    os.makedirs(log_folder, exist_ok=True)  # Ensure the log directory exists
 
-        logging.basicConfig(
-            format='%(asctime)s %(levelname)s: %(message)s',
-            datefmt='%H:%M:%S',
-            level=logging.INFO
-        )
-        print("Logger sat op: terminal")
+    # Create log file path with today's date
+    date_str = datetime.now().strftime('%Y-%m-%d')
+    log_path = os.path.join(log_folder, f"{log_name}_{date_str}.log")
+
+    # Remove old handlers to prevent duplicate logs
+    for handler in logging.root.handlers[:]:
+        logging.root.removeHandler(handler)
+
+    # Set up logging to file
+    logging.basicConfig(
+        filename=log_path,
+        filemode='w',  # Overwrite the log file every run
+        format='%(asctime)s %(levelname)s: %(message)s',
+        datefmt='%H:%M:%S',
+        level=logging.INFO
+    )
+    print(f"Logger set up: {log_path}")

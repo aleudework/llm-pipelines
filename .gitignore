@@ -1,6 +1,7 @@
 # My file and folders
 logs
 DS_Store
+backup
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

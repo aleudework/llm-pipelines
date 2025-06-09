@@ -1,5 +1,6 @@
 model_vl: "qwen2-vl-2b-instruct"
 model: "google/gemma-3-4b"
+project: "faktura_reader_dual"
 data: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Sample.xlsx"
 output: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Output.xlsx"
 pdf_folder: "/Users/alhu/Data/Faktura_Samples_Small"
