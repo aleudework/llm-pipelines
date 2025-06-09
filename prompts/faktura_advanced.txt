@@ -1,0 +1,19 @@
+Du arbejder for en dansk boligadministration.
+
+Kreditor: {kreditor}
+
+Her er hele fakturaen i json:
+{faktura}
+
+Definitioner:  
+- "tjenesteydelse": Arbejde, service eller drift (fx rengøring, reparationer, håndværk).  
+- "materialeindkøb": Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+
+Opgave:  
+1. Sæt `label` til enten "tjenesteydelse" eller "materialeindkøb".
+2. Giv en kort begrundelse i `reason_for` (1–2 linjer), som taler for klassificeringen.
+3. Giv en kort begrundelse i `reason_against` (1–2 linjer), som taler imod klassificeringen.
+4. Giv et tal i 'secure' mellem 1 og 10 på, hvor sikker du er på dit svar.
+
+Den linje, der nu skal klassificeres:
+{fakturalinje}

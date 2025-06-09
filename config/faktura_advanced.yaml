@@ -1,0 +1,20 @@
+model: "phi-4"
+project: "faktura_advanced"
+data: "/Users/alhu/Data/Testdata_Fakturalinjer/Fakturalinjer_M.xlsx"
+output: "/Users/alhu/Data/Faktura_Advanced.xlsx"
+backup_itr: 10
+
+data_params:
+  kreditor: "Kreditor"
+  fakturanummer: "Fakturanummer"
+  linjenummer: "linjenummer"
+  input_col: "Fakturabeskrivelse"
+  antal: "Antal"
+  stykpris: "Stykpris"
+
+model_params:
+  max_tokens: 200
+  temperature: 0.3
+
+
+  # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.
