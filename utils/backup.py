@@ -14,22 +14,32 @@ def get_backup_path(config):
 def load_backup(df: pd.DataFrame, config):
     """
     Loads a parquet backup file if it exists.
-    Returns the DataFrame (possibly updated with backup data) and
-    the index to start from.
+    Ensures df has all columns from backup and updates first rows with backup content.
+    Returns updated df and index to start from.
     """
     backup_path = get_backup_path(config)
 
-    # Check if backup file exists
     if os.path.exists(backup_path):
         backup = pd.read_parquet(backup_path)
         if not backup.empty:
             backup_len = len(backup)
-            # Overwrite the first rows in df with the backup data
-            df.iloc[:backup_len] = backup
+
+            # Add any missing columns from backup to df
+            for col in backup.columns:
+                if col not in df.columns:
+                    df[col] = pd.NA
+
+            # Add any missing columns from df to backup (so later code doesn't fail)
+            for col in df.columns:
+                if col not in backup.columns:
+                    backup[col] = pd.NA
+
+            # Update first rows in df with everything from backup (all columns)
+            df.loc[:backup_len-1, :] = backup[df.columns].values
+
             logging.info(f"Found and read backup with {backup_len} rows")
             return df, backup_len
 
-    # If no backup or empty backup, return original df and start at index 0
     return df, 0
 
 def delete_backup(config):

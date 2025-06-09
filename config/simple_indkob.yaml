@@ -1,10 +1,8 @@
-model: "tess-3-mistral-large-2-123b"
+model: "phi-4"
 project: "simple_indkob"
-data: "/Users/alhu/Data/Varelinjer_Sample_S.xlsx"
-output: "/Users/alhu/Data/Varelinjer_Sample_Output_Test5.xlsx"
-backup: null
-backup_itr: null
-log: "../logs/simple_indkob"
+data: "/Users/alhu/Data/Testdata_Varelinjer/Varelinjer_S.xlsx"
+output: "/Users/alhu/Data/Simple_Faktura_Test/Varelinjer_Sample_Output_Test6.xlsx"
+backup_itr: 1
 
 data_params:
   input_col: "Fakturabeskrivelse"

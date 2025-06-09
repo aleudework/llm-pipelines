@@ -8,7 +8,7 @@ def get_log_path(config):
     Always uses ../log/{project_name}
     """
     project_name = config['project']
-    return os.path.join('../log', project_name)
+    return os.path.join('../logs', project_name)
 
 def setup_logger(config, log_name="log"):
     """
