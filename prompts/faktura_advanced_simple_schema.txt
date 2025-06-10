@@ -11,9 +11,7 @@ Definitioner:
 
 Opgave:  
 1. Sæt `label` til enten "tjenesteydelse" eller "materialeindkøb". Er du i tvivl, så kig konkret på ordet og overvej, om det ikke er et produkt
-2. Giv en kort begrundelse i `reason_for` (1–2 linjer), som taler for klassificeringen.
-3. Giv en kort begrundelse i `reason_against` (1–2 linjer), som taler imod klassificeringen.
-4. Giv et tal i 'secure' mellem 1 og 10 på, hvor sikker du er på din klassificering. Du skal være kritisk i din score givning. Den mindste usikkerhed skal kunne ses på scoren.
+4. Giv et tal i 'secure' mellem 1 og 10 på, hvor sikker du er på din klassificering, hvor 10 er mest sikker. Du skal være kritisk i din score, og den mindste usikkerhed skal give en lavere score.
 
 Den linje, der nu skal klassificeres ud fra tidligere faktura:
 {fakturalinje}

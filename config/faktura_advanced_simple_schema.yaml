@@ -1,8 +1,8 @@
 model: "qwen/qwen3-235b-a22b"
-project: "faktura_advanced"
+project: "faktura_advanced_simple_schema"
 data: "/Users/alhu/Data/Testdata_Fakturalinjer/Fakturalinjer_M.xlsx"
-output: "/Users/alhu/Data/Faktura_Advanced_4.xlsx"
-backup_itr: 5
+output: "/Users/alhu/Data/Faktura_Advanced_Simple_Schema/Faktura_Advanced_128E.xlsx"
+backup_itr: 10
 
 data_params:
   kreditor: "Kreditor"
@@ -13,8 +13,7 @@ data_params:
   stykpris: "Stykpris"
 
 model_params:
-  max_tokens: 1500
+  max_tokens: 5
   temperature: 0.7
-
 
   # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.

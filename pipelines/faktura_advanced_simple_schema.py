@@ -21,8 +21,6 @@ from wrapper import wrapper
 
 class Indkøb(BaseModel):
     label: str # Only materialeindkøb or tjenesteydelse
-    reason_for: str # A reason for the choice
-    reason_against: str #A reason for why not the choice
     secure: int # 1 to 10 on how sure it is on its answer
 
 # === Functions ===
@@ -114,6 +112,7 @@ def pipeline(df, row, idx, model, config):
 
         prompt = create_prompt(df, row, config)
         answer = model_response(prompt, idx, model, config)
+        print(answer)
         answer_adjusted = label_adjuster(answer)
 
         return answer_adjusted
@@ -129,7 +128,7 @@ if __name__ == '__main__':
 
     print('Script started')
 
-    config_path = '../config/faktura_advanced.yaml'
+    config_path = '../config/faktura_advanced_simple_schema.yaml'
 
     # Wrapper does
     # Setup logger
@@ -146,8 +145,6 @@ if __name__ == '__main__':
 
         df.at[idx, 'Klassificering'] = result['label']
         df.at[idx, 'Score'] = result['secure']
-        df.at[idx, 'Begrundelse For'] = result['reason_for']
-        df.at[idx, 'Begrundelse Imod'] = result['reason_against']
 
         # Create backup
         if backup_itr and ((idx + 1) % backup_itr == 0):
