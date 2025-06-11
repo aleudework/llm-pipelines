@@ -42,6 +42,12 @@ def response(prompt, idx, model, config=None, log_every=100):
     return result.content
 
 
+def default_schema(schema):
+    if isinstance(schema, dict):
+        return {key: None for key in schema.keys()}
+    return {}  # fallback hvis schema ikke er dict
+
+
 def response_structured(prompt, idx, model, schema, config=None, log_every=100):
     try:
         if config:
@@ -51,7 +57,7 @@ def response_structured(prompt, idx, model, schema, config=None, log_every=100):
     except Exception as e:
         logging.error(f"Fejl ved model.respond_stream for idx {idx}: {e}")
         return None
-
+    
     try:
         for fragment in prediction_stream:
             pass
@@ -79,10 +85,15 @@ def response_structured(prompt, idx, model, schema, config=None, log_every=100):
     if isinstance(content, str):
         try:
             return json.loads(content)
+        except json.JSONDecodeError as e:
+            logging.error(f"JSONDecodeError for idx {idx}: {e}")
+            logging.error(f"Indhold: {repr(content)}")
+            return default_schema(schema)
         except Exception as e:
-            logging.error(f"Kunne ikke parse JSON for idx {idx}: {e}")
-            return content
+            logging.error(f"Anden fejl ved JSON parsing for idx {idx}: {e}")
+            return default_schema(schema)
     return content
+
 
 
 def response_image_input(prompt, idx, model, images, config=None, log_every=100):
