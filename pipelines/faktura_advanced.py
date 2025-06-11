@@ -11,8 +11,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "u
 from prompts import build_prompt
 from config import load_config
 from dataframe import load_df, write_df
-from backup import load_backup, delete_backup, create_backup
-from logs import setup_logger
+from backup import load_backup, delete_backup, check_and_create_backup
+from logs import setup_logger, webhook_logger
 from model import response_structured
 from wrapper import wrapper
 
@@ -62,6 +62,9 @@ def create_prompt(df, row, config):
     input_col = config['data_params']['input_col']
     antal = config['data_params']['antal']
     stykpris = config['data_params']['stykpris']
+
+    if pd.isna(row[input_col]):
+        return
 
     faktura = find_faktura(df, row[kreditor], row[fakturanummer], linjenummer, input_col, antal, stykpris)
 
@@ -115,12 +118,13 @@ def pipeline(df, row, idx, model, config):
         prompt = create_prompt(df, row, config)
         answer = model_response(prompt, idx, model, config)
         answer_adjusted = label_adjuster(answer)
+        print(answer_adjusted)
 
         return answer_adjusted
 
     except Exception as e:
         logging.error(f"Error at {idx}: {repr(e)}")
-        return row
+        return
 
 
 # === Main Setup ===
@@ -144,14 +148,23 @@ if __name__ == '__main__':
         # Handle row with pipeline
         result = pipeline(df, df.loc[idx], idx, model, config)
 
-        df.at[idx, 'Klassificering'] = result['label']
-        df.at[idx, 'Score'] = result['secure']
-        df.at[idx, 'Begrundelse For'] = result['reason_for']
-        df.at[idx, 'Begrundelse Imod'] = result['reason_against']
+        if result is not None:
+            df.at[idx, 'Klassificering'] = result.get('label', None)
+            df.at[idx, 'Score'] = result.get('secure', None)
+            df.at[idx, 'Begrundelse For'] = result.get('reason_for', None)
+            df.at[idx, 'Begrundelse Imod'] = result.get('reason_against', None)
+        else:
+            df.at[idx, 'Klassificering'] = None
+            df.at[idx, 'Score'] = None
+            df.at[idx, 'Begrundelse For'] = None
+            df.at[idx, 'Begrundelse Imod'] = None
 
-        # Create backup
-        if backup_itr and ((idx + 1) % backup_itr == 0):
-            create_backup(df, idx, config)
+        # Check and create backup
+        check_and_create_backup(df, idx, config)
+        
+        logger_msg = f"Row: {idx+1}, Data: {result}"
+        webhook_logger(idx, config, logger_msg)
+
 
     # Write final output
     write_df(df, config['output'])
