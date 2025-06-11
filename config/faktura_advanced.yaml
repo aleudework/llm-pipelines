@@ -1,7 +1,7 @@
-model: "phi-4"
+model: "meta-llama-3.1-8b-instruct"
 project: "faktura_advanced"
-data: "/Users/alhu/Data/Testdata_Fakturalinjer/Fakturalinjer_M.xlsx"
-output: "/Users/alhu/Data/Faktura_Advanced.xlsx"
+data: "/Users/alexander/VSC_Work/llm-pipelines/data/Varelinjer_Sample.xlsx"
+output: "'/Users/alexander/På min Mac/Data/Varelinjer_Test.parquet"
 backup_itr: 10
 
 data_params:
