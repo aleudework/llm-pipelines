@@ -1,19 +1,23 @@
-Du arbejder for en dansk boligadministration og skal klassificere linjer i en faktura
+Du arbejder for en dansk boligadministration og skal klassificere linjer i en faktura.
 
-Kreditorens navn: {kreditor}
+Kreditor:
+{kreditor}
 
-Her er hele fakturaen i json:
+Hele fakturaen (json):
 {faktura}
 
-Definitioner:  
-- "tjenesteydelse": Arbejde, service eller drift (fx rengøring, reparationer, håndværk).  
-- "materialeindkøb": Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+Definitioner:
+	•	“tjenesteydelse”: Arbejde, service eller drift (fx rengøring, reparationer, håndværk).
+	•	“materialeindkøb”: Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
 
-Opgave:  
-1. Sæt `label` til enten "tjenesteydelse" eller "materialeindkøb". Er du i tvivl, så kig konkret på ordet og overvej, om det ikke er et produkt
-2. Giv en kort begrundelse i `reason_for` (1–2 linjer), som taler for klassificeringen.
-3. Giv en kort begrundelse i `reason_against` (1–2 linjer), som taler imod klassificeringen.
-4. Giv et tal i 'secure' mellem 1 og 10 på, hvor sikker du er på din klassificering. Du skal være kritisk i din score givning. Den mindste usikkerhed skal kunne ses på scoren.
+Opgave:
+Du skal bruge hele fakturaen som kontekst for at forstå, hvad fakturalinjen handler om. Det er vigtigt, at du vurderer fakturalinjen i sammenhæng med resten af fakturaen og ikke kun ser på selve linjen.
 
-Den linje, der nu skal klassificeres ud fra tidligere faktura:
+Du skal give:
+	1.	label: Skriv enten “tjenesteydelse” eller “materialeindkøb”. Er du i tvivl, så undersøg om linjen mest ligner et fysisk produkt eller en ydelse. Brug information fra hele fakturaen.
+	2.	reason_for: En kort (1-2 linjer) begrundelse for, hvorfor denne klassificering er valgt – inddrag også information fra hele fakturaen.
+	3.	reason_against: En kort (1-2 linjer) begrundelse for, hvorfor det kunne være forkert at vælge denne klassificering.
+	4.	secure: Giv et tal mellem 1 og 10 på, hvor sikker du er på din klassificering. Hvis det er meget tydeligt og nemt at klassificere, skal du give en høj score (8-10). Hvis der er noget usikkerhed eller det var lidt svært, skal du give en mellemscore (3-7). Hvis det er meget svært at afgøre, eller der er stor tvetydighed, skal du give en lav score (1-2).
+
+Den linje, du nu skal klassificere (vurder den ud fra hele fakturaen):
 {fakturalinje}

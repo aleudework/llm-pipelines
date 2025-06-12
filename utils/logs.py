@@ -1,6 +1,7 @@
 import os
 import logging
 from datetime import datetime
+import requests
 
 def get_log_path(config):
     """
@@ -41,3 +42,27 @@ def setup_logger(config, log_name="log"):
         level=logging.INFO
     )
     print(f"Logger set up: {log_path}")
+
+def webhook_logger(idx, config, message, webhook_url=None, webhook_itr=None):
+    """
+    Sender beskeder ud til server
+    """
+    if webhook_url is None:
+        webhook_url = config['others']['webhook_url']
+    
+    if webhook_itr is None:
+        webhook_itr = config['others']['webhook_itr']
+        if webhook_itr is None:
+            webhook_itr = 500
+    
+    if webhook_url is None:
+        return
+    
+    if webhook_url and (idx + 1) % webhook_itr == 0:
+        data = {"content": message}
+        requests.post(webhook_url, json=data)
+        logging.info('Webhook message sent to server')
+
+
+
+
