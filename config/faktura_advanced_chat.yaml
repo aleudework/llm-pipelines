@@ -1,7 +1,7 @@
 model: "qwen/qwen3-235b-a22b"
-project: "faktura_advanced"
-data: "/Users/alhu/VSC/llm-pipelines/data/Fakturalinjer_Sample.xlsx"
-output: "/Users/alhu/Data/Testdata_Fakturalinjer/Test.xlsx"
+project: "faktura_advanced_chat"
+data: "/Users/alhu/Data/Large_Faktura/Faktura20232024.xlsx"
+output: "/Users/alhu/Data/Large_Faktura/output.parquet"
 backup_itr: 100
 
 data_params:
@@ -18,7 +18,7 @@ model_params:
 
 others:
   webhook_url: https://discord.com/api/webhooks/1382423391851511858/tKGJMIG1TpUDGjdLFcQlvz6cauWfPZbpUC9XUssbjGwAg_YDPLg0i7849l7ZwBlAmXkn
-  webhook_itr: 20
+  webhook_itr: 250
 
 
   # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.

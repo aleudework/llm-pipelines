@@ -7,6 +7,7 @@ def response(prompt, idx, model, config=None, log_every=100):
     """
     Response with logged stats
     """
+
     try:
         if config:
             prediction_stream = model.respond_stream(prompt, config=config)
@@ -132,3 +133,54 @@ def response_image_input(prompt, idx, model, images, config=None, log_every=100)
     
     return result.content
 
+
+
+def create_chat(system_prompt):
+    return lms.Chat(system_prompt)
+
+def add_message(chat, message, idx, model, model_config=None, log_every=100):
+
+    try:
+        response = ""
+        chat.add_user_message(message)
+        
+        if model_config:
+            prediction_stream = model.respond_stream(chat, on_message=chat.append, config=model_config)
+        else:
+            prediction_stream = model.respond_stream(chat, on_message=chat.append)
+
+    except Exception as e:
+        logging.error(f"Fejl ved model.respond_stream for idx {idx}: {e}")
+        return None
+    
+    try:
+        for fragment in prediction_stream:
+            response += fragment.content
+        result_info = prediction_stream.result()
+
+    except Exception as e:
+        logging.error(f"Fejl under stream/result for idx {idx}: {e}")
+        return None
+    
+    try:
+        if log_every != -1:
+            if (idx + 1) % log_every == 0:
+                time_to_first_token = result_info.stats.time_to_first_token_sec
+                prompt_tokens_count = result_info.stats.prompt_tokens_count
+                token_count = result_info.stats.predicted_tokens_count
+                tokens_sec = result_info.stats.tokens_per_second
+                stop_reason = result_info.stats.stop_reason
+                msg = (
+                    f"[Row {idx+1}] "
+                    f"Prompt tokens: {prompt_tokens_count} | "
+                    f"Time to first token: {time_to_first_token} | "
+                    f"Tokens/sec: {tokens_sec:.2f} | "
+                    f"Total tokens: {token_count} | "
+                    f"Stop reason: {stop_reason}"
+                )
+                logging.info(msg)
+    except Exception as e:
+        logging.warning(f"Kunne ikke logge stats for idx {idx}: {e}")
+    
+
+    return response, chat

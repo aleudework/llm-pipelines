@@ -1,5 +1,5 @@
 model: "qwen/qwen3-235b-a22b"
-project: "faktura_advanced"
+project: "faktura_advanced_x"
 data: "/Users/alhu/VSC/llm-pipelines/data/Fakturalinjer_Sample.xlsx"
 output: "/Users/alhu/Data/Testdata_Fakturalinjer/Test.xlsx"
 backup_itr: 100

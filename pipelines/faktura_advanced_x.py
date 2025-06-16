@@ -21,7 +21,6 @@ from wrapper import wrapper
 
 class Indkøb(BaseModel):
     label: str # Only materialeindkøb or tjenesteydelse
-    begge: str # If both material and tjenesteydelse is a part of it
     reason_for: str # A reason for the choice
     reason_against: str #A reason for why not the choice
     secure: int # 1 to 10 on how sure it is on its answer
@@ -70,7 +69,7 @@ def create_prompt(df, row, config):
     faktura = find_faktura(df, row[kreditor], row[fakturanummer], linjenummer, input_col, antal, stykpris)
 
     # Get prompt path
-    path = '../prompts/faktura_advanced.txt' # Prompt path
+    path = '../prompts/faktura_advanced_x.txt' # Prompt path
 
     # Load and check input col
 
@@ -107,8 +106,6 @@ def label_adjuster(answer):
         answer['label'] = "Materialeindkøb"
     elif "tjen" in label:
         answer['label'] = "Tjenesteydelse"
-    elif "beg" in label:
-        answer['label'] = "Begge"
     else:
         answer['label'] = "Ukendt"
     return answer
@@ -153,13 +150,11 @@ if __name__ == '__main__':
 
         if result is not None:
             df.at[idx, 'Klassificering'] = result.get('label', None)
-            df.at[idx, 'Begge'] = result.get('begge', None)
             df.at[idx, 'Score'] = result.get('secure', None)
             df.at[idx, 'Begrundelse For'] = result.get('reason_for', None)
             df.at[idx, 'Begrundelse Imod'] = result.get('reason_against', None)
         else:
             df.at[idx, 'Klassificering'] = None
-            df.at[idx, 'Begge'] = None
             df.at[idx, 'Score'] = None
             df.at[idx, 'Begrundelse For'] = None
             df.at[idx, 'Begrundelse Imod'] = None

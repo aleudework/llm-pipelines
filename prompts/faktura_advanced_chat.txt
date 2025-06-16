@@ -1,0 +1,63 @@
+### SYSTEM
+Du er en grundig og præcis AI-assistent, der hjælper med at klassificere linjer i fakturaer for en dansk boligadministration.
+
+
+### PROMPT 1 – Vælg type (tjenesteydelse eller materialeindkøb)
+
+Du skal klassificere en fakturalinje fra en dansk boligadministration.
+
+**Kontekst:**
+- Kreditor: {kreditor}
+- Hele fakturaen (json): {faktura}
+
+**Definitioner:**
+- “tjenesteydelse”: Arbejde, service eller drift (fx rengøring, reparationer, håndværk).
+- “materialeindkøb”: Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+
+**Opgave:**  
+Læs hele fakturaen for at forstå, hvad linjen handler om.  
+**Svar kun med ét ord:**  
+**tjenesteydelse** eller **materialeindkøb**.
+
+**Fakturalinje:**  
+{fakturalinje}
+
+
+### PROMPT 2 – Begrund for valg
+
+Du har klassificeret linjen som “tjenesteydelse” eller “materialeindkøb”.
+
+**Opgave:**  
+Giv én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering blev valgt.  
+Brug kun information fra fakturaen – gentag ikke klassificeringen.
+
+**Kontekst:**  
+- Kreditor: {kreditor}
+- Faktura (json): {faktura}
+- Fakturalinje: {fakturalinje}
+
+
+### PROMPT 3 – Begrund modsat
+
+**Opgave:**  
+Forklar kort (1-2 linjer), hvorfor det **kunne være forkert** at vælge den tidligere klassificering.  
+Fremhæv, hvor der kan være tvivl.
+
+**Kontekst:**  
+- Kreditor: {kreditor}
+- Faktura (json): {faktura}
+- Fakturalinje: {fakturalinje}
+- Tidligere klassificering: {klassificering}
+
+
+### PROMPT 4 – Sikkerhedsscore
+
+**Opgave:**  
+Vurder hvor sikker du er på klassificeringen.  
+Giv et tal mellem 1 og 10 og skriv tallet alene.
+
+Brug din tidligere begrundelse for og imod til at vurdere:
+
+- 8-10 = meget sikker  
+- 3-7 = noget usikker  
+- 1-2 = stor tvivl

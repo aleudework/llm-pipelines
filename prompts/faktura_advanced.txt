@@ -1,23 +1,27 @@
 Du arbejder for en dansk boligadministration og skal klassificere linjer i en faktura.
 
-Kreditor:
+**Kreditor:**
 {kreditor}
 
-Hele fakturaen (json):
+**Hele fakturaen (json):**
 {faktura}
 
-Definitioner:
-	•	“tjenesteydelse”: Arbejde, service eller drift (fx rengøring, reparationer, håndværk).
-	•	“materialeindkøb”: Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+**Definitioner:**
 
-Opgave:
+* **“tjenesteydelse”**: Arbejde, service eller drift (fx rengøring, reparationer, håndværk).
+* **“materialeindkøb”**: Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+* **“begge”**: Når en fakturalinje dækker både en tjenesteydelse og et materialeindkøb, og det ikke er muligt at adskille dem klart.
+
+**Opgave:**
 Du skal bruge hele fakturaen som kontekst for at forstå, hvad fakturalinjen handler om. Det er vigtigt, at du vurderer fakturalinjen i sammenhæng med resten af fakturaen og ikke kun ser på selve linjen.
 
 Du skal give:
-	1.	label: Skriv enten “tjenesteydelse” eller “materialeindkøb”. Er du i tvivl, så undersøg om linjen mest ligner et fysisk produkt eller en ydelse. Brug information fra hele fakturaen.
-	2.	reason_for: En kort (1-2 linjer) begrundelse for, hvorfor denne klassificering er valgt – inddrag også information fra hele fakturaen.
-	3.	reason_against: En kort (1-2 linjer) begrundelse for, hvorfor det kunne være forkert at vælge denne klassificering.
-	4.	secure: Giv et tal mellem 1 og 10 på, hvor sikker du er på din klassificering. Hvis det er meget tydeligt og nemt at klassificere, skal du give en høj score (8-10). Hvis der er noget usikkerhed eller det var lidt svært, skal du give en mellemscore (3-7). Hvis det er meget svært at afgøre, eller der er stor tvetydighed, skal du give en lav score (1-2).
 
-Den linje, du nu skal klassificere (vurder den ud fra hele fakturaen):
+1. **label**: Skriv enten “tjenesteydelse”, “materialeindkøb” eller “begge”. Er du i tvivl, så vurder hvad der dominerer – men hvis det tydeligt indeholder både materiale og ydelse, vælg “begge”.
+2. **reason\_for**: En kort (1-2 linjer) begrundelse for, hvorfor denne klassificering er valgt – inddrag også information fra hele fakturaen.
+3. **reason\_against**: En kort (1-2 linjer) begrundelse for, hvorfor det kunne være forkert at vælge denne klassificering.
+4. **secure**: Giv et tal mellem 1 og 10 på, hvor sikker du er på din klassificering. Hvis det er meget tydeligt og nemt at klassificere, skal du give en høj score (8-10). Hvis der er noget usikkerhed eller det var lidt svært, skal du give en mellemscore (3-7). Hvis det er meget svært at afgøre, eller der er stor tvetydighed, skal du give en lav score (1-2).
+5. **kombineret**: Hvis både tjenesteydelse og materialeindkøb indgår i linjen, skriv “Begge”. Hvis ikke, skriv “-”.
+
+**Den linje, du nu skal klassificere (vurder den ud fra hele fakturaen):**
 {fakturalinje}
