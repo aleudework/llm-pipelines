@@ -138,7 +138,7 @@ def response_image_input(prompt, idx, model, images, config=None, log_every=100)
 def create_chat(system_prompt):
     return lms.Chat(system_prompt)
 
-def add_message(chat, message, idx, model, model_config=None, log_every=100):
+def add_message(chat, message, idx, model, model_config=None, log_every=100, stats=False):
 
     try:
         response = ""
@@ -181,6 +181,8 @@ def add_message(chat, message, idx, model, model_config=None, log_every=100):
                 logging.info(msg)
     except Exception as e:
         logging.warning(f"Kunne ikke logge stats for idx {idx}: {e}")
-    
 
-    return response, chat
+    if stats:
+        return response, chat, result_info.stats
+    else:
+        return response, chat

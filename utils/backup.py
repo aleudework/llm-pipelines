@@ -2,8 +2,6 @@ import pandas as pd
 import os
 import logging
 
-
-
 def get_backup_path(config):
     """
     Helper function
@@ -71,14 +69,17 @@ def create_backup(df, idx, config):
 
 
 def check_and_create_backup(df, idx, config, backup_itr=None):
-    
-    # Check if backup_iteration manually are made
-    if backup_itr:
-        if ((idx + 1) % backup_itr == 0):
-            create_backup(df, idx, config)
-    
-    # Otherwise use the one in config or standard itr
-    else:
-        backup_itr = config.get('backup_itr') or 100
-        if ((idx + 1) % backup_itr == 0):
-            create_backup(df, idx, config)
+        
+    try:
+        # Check if backup_iteration manually are made
+        if backup_itr:
+            if ((idx + 1) % backup_itr == 0):
+                create_backup(df, idx, config)
+        
+        # Otherwise use the one in config or standard itr
+        else:
+            backup_itr = config.get('backup_itr') or 100
+            if ((idx + 1) % backup_itr == 0):
+                create_backup(df, idx, config)
+    except Exception as e:
+        logging.warning(f"Failed to backup")

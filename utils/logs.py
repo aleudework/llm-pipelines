@@ -47,21 +47,25 @@ def webhook_logger(idx, config, message, webhook_url=None, webhook_itr=None):
     """
     Sender beskeder ud til server
     """
-    if webhook_url is None:
-        webhook_url = config['others']['webhook_url']
-    
-    if webhook_itr is None:
-        webhook_itr = config['others']['webhook_itr']
+    try:
+        if webhook_url is None:
+            webhook_url = config['others']['webhook_url']
+        
         if webhook_itr is None:
-            webhook_itr = 500
-    
-    if webhook_url is None:
-        return
-    
-    if webhook_url and (idx + 1) % webhook_itr == 0:
-        data = {"content": message}
-        requests.post(webhook_url, json=data)
-        logging.info('Webhook message sent to server')
+            webhook_itr = config['others']['webhook_itr']
+            if webhook_itr is None:
+                webhook_itr = 500
+        
+        if webhook_url is None:
+            return
+        
+        if webhook_url and (idx + 1) % webhook_itr == 0:
+            data = {"content": message}
+            requests.post(webhook_url, json=data, timeout=15)
+            logging.info('Webhook message sent to server')
+    except Exception as e:
+        logging.warning(f"[Webhook] fejl: {e}")
+
 
 
 

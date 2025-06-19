@@ -25,10 +25,10 @@ Læs hele fakturaen for at forstå, hvad linjen handler om.
 
 ### PROMPT 2 – Begrund for valg
 
-Du har klassificeret linjen som “tjenesteydelse” eller “materialeindkøb”.
+Du har klassificeret linjen som {klassificering}.
 
 **Opgave:**  
-Giv én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering blev valgt.  
+Giv én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering blev valgt. Giv også én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering kunne være forkert. 
 Brug kun information fra fakturaen – gentag ikke klassificeringen.
 
 **Kontekst:**  
@@ -36,28 +36,120 @@ Brug kun information fra fakturaen – gentag ikke klassificeringen.
 - Faktura (json): {faktura}
 - Fakturalinje: {fakturalinje}
 
-
-### PROMPT 3 – Begrund modsat
+### PROMPT 3 – Sikkerhedsscore
 
 **Opgave:**  
-Forklar kort (1-2 linjer), hvorfor det **kunne være forkert** at vælge den tidligere klassificering.  
-Fremhæv, hvor der kan være tvivl.
+Vurder hvor sikker du er på klassificeringen. 
+Giv et tal mellem 1 og 100 og skriv tallet alene.
+
+Brug din tidligere begrundelse for og imod til at vurdere scoren:
+
+- 80-100 = meget sikker  
+- 30-70 = noget usikker  
+- 10-20 = stor tvivl
+
+
+### PROMPT 4 - Materialeindkøb klassificering
+
+Du skal klassificere en fakturalinje, som er vurderet til at være et **materialeindkøb**.
+
+**Kontekst**
+- Kreditor: {kreditor}
+- Hele fakturaen (json): {faktura}
+
+**Vælg den mest passende underkategori blandt disse:**
+
+- **Byggematerialer**: Maling, træ, cement, gips
+- **El-artikler**: Ledninger, pærer, stikkontakter
+- **VVS-dele**: Vandhaner, rør, fittings
+- **Rengøringsartikler**: Sæbe, koste, klude, affaldsposer
+- **Andet**: Passer ikke klart i ovenstående – fx blandet indhold eller uklare varer
+
+**Opgave:**
+Læs hele fakturaen og forstå, hvad linjen handler om. Klassificér linjen med præcis **én af ovenstående underkategorier**.
+
+**Svar kun med én af disse kategorier:**
+Byggematerialer, El-artikler, VVS-dele, Rengøringsartikler, Andet / Ukendt
+
+**Fakturalinje:**
+{fakturalinje}
+
+
+### PROMPT 5 – Materialeindkøb Begrund for valg
+
+Du har klassificeret linjen som {underkategori}.
+
+**Opgave:**  
+Giv én kort begrundelse (1-2 linjer) for, hvorfor denne underkategori blev valgt. Giv også én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering kunne være forkert. 
+Brug kun information fra fakturaen – gentag ikke klassificeringen.
 
 **Kontekst:**  
 - Kreditor: {kreditor}
 - Faktura (json): {faktura}
 - Fakturalinje: {fakturalinje}
-- Tidligere klassificering: {klassificering}
 
-
-### PROMPT 4 – Sikkerhedsscore
+### PROMPT 6 – Materialeindkøb Sikkerhedsscore
 
 **Opgave:**  
-Vurder hvor sikker du er på klassificeringen.  
-Giv et tal mellem 1 og 10 og skriv tallet alene.
+Vurder hvor sikker du er på underkategorien. 
+Giv et tal mellem 1 og 100 og skriv tallet alene.
 
-Brug din tidligere begrundelse for og imod til at vurdere:
+Brug din tidligere begrundelse for og imod til at vurdere scoren:
 
-- 8-10 = meget sikker  
-- 3-7 = noget usikker  
-- 1-2 = stor tvivl
+- 80-100 = meget sikker  
+- 30-70 = noget usikker  
+- 10-20 = stor tvivl
+
+
+### PROMPT 7 - Tjenesteydelse klassificering
+
+Du skal klassificere en fakturalinje, som allerede er vurderet til at være en **tjenesteydelse**.
+
+**Kontekst:**
+- Kreditor: {kreditor}
+- Hele fakturaen (json): {faktura}
+
+**Definition af tjenesteydelse:**
+En tjenesteydelse er et arbejde eller en service, som er blevet udført – fx reparation, rengøring eller havearbejde.
+
+**Vælg den mest passende underkategori blandt disse:**
+
+- **Rengøring**: Trappevask, vinduespudsning, hovedrengøring
+- **Håndværk**: Elektriker, VVS, murer, snedkerarbejde
+- **Havearbejde**: Græsslåning, hækklipning, snerydning
+- **Service og reparation**: Vedligehold, teknisk drift, inspektion
+- **Andet**: Passer ikke klart i ovenstående – fx uklare eller blandede ydelser
+
+**Opgave:**
+Læs hele fakturaen og forstå, hvad linjen handler om. Klassificér linjen med præcis **én af ovenstående underkategorier**.
+
+**Svar kun med én af disse kategorier:**
+Rengøring, Håndværk, Havearbejde, Service og reparation, Andet / Ukendt
+
+**Fakturalinje:**
+{fakturalinje}
+
+### PROMPT 8 – Tjenesteydelse Begrund for valg
+
+Du har klassificeret linjen som {kategori}.
+
+**Opgave:**  
+Giv én kort begrundelse (1-2 linjer) for, hvorfor denne underkategori blev valgt. Giv også én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering kunne være forkert. 
+Brug kun information fra fakturaen – gentag ikke klassificeringen.
+
+**Kontekst:**  
+- Kreditor: {kreditor}
+- Faktura (json): {faktura}
+- Fakturalinje: {fakturalinje}
+
+### PROMPT 8 – Tjenesteydelse Sikkerhedsscore
+
+**Opgave:**  
+Vurder hvor sikker du er på klassificeringen. 
+Giv et tal mellem 1 og 100 og skriv tallet alene.
+
+Brug din tidligere begrundelse for og imod til at vurdere scoren:
+
+- 80-100 = meget sikker  
+- 30-70 = noget usikker  
+- 10-20 = stor tvivl

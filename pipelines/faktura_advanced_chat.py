@@ -81,6 +81,14 @@ def create_dictionary(df, row, config, more_keys=None):
 
     return final_dict
 
+def classify(answer, labels):
+    answer_lower = answer.lower()
+
+    for label in labels:
+        label_lowered = label.lower()
+        if label_lowered in answer_lower:
+            return label
+    return "Ukendt"
 
 def classify_indkob(answer):
     for word in answer.split():
@@ -93,6 +101,9 @@ def classify_indkob(answer):
             return 'Ukendt'
         
 def first_number(answer):
+    """
+    Returns the first number from a string
+    """
     match = re.search(r'\d+', answer)
     if match:
         return int(match.group())
@@ -106,39 +117,65 @@ def pipeline(df, row, idx, model, config):
         output = {
             'label': None,
             'secure': None,
-            'reason_for': None,
-            'reason_against': None
+            'reason': None,
+            'category': None,
+            'secure_category': None,
+            'reason_category': None,
+            'faktura': None
         }
 
         prompts = load_multiple_prompts(config) # Load all prompts
         chat = create_chat(prompts[0])
 
         dict1 = create_dictionary(df, row, config)
+        output['faktura'] = dict1['faktura']
+
         prompt1 = format_prompt(prompts[1], dict1)
         res1, chat = add_message(chat, prompt1, idx, model, {'max_tokens': 35}, -1)
-        output['label'] = classify_indkob(res1)
+        output['label'] = classify(res1, ['Tjenesteydelse', 'Materialeindkøb'])
 
         dict2 = create_dictionary(df, row, config, {'klassificering': output['label']})
         prompt2 = format_prompt(prompts[2], dict2)
-        res2, chat = add_message(chat, prompt2, idx, model, {'max_tokens': 150}, -1)
-        output['reason_for'] = res2
+        res2, chat, stats = add_message(chat, prompt2, idx, model, {'max_tokens': 150}, 1, stats=True)
+        output['reason'] = res2
 
         prompt3 = format_prompt(prompts[3], dict2)
-        res3, chat = add_message(chat, prompt3, idx, model, {'max_tokens': 150}, 1)
-        output['reason_against'] = res3
+        res3, chat = add_message(chat, prompt3, idx, model, {'max_tokens': 25}, -1)
+        output['secure'] = first_number(res3)
 
-        prompt4 = format_prompt(prompts[4], dict2)
- 
-        res4, chat = add_message(chat, prompt4, idx, model, {'max_tokens': 25}, -1)
-        output['secure'] = first_number(res4)
+        dict3 = create_dictionary(df, row, config, {'kategori': output['category']})
 
+        if output['label'] == 'Materialeindkøb':
+            prompt4 = format_prompt(prompts[4], dict3)
+            res4, chat = add_message(chat, prompt4, idx, model, {'max_tokens': 35}, -1)
+            output['category'] = classify(res4, ['Byggematerialer', 'El-artikler', 'VVS-dele', 'Rengøringsartikler', 'Andet'])
 
-        return output
+            prompt5 = format_prompt(prompts[5], dict3)
+            res5, chat = add_message(chat, prompt5, idx, model, {'max_tokens': 200}, -1)
+            output['reason_category'] = res5
+
+            prompt6 = format_prompt(prompts[6], dict3)
+            res6, chat = add_message(chat, prompt6, idx, model, {'max_tokens': 25}, -1)
+            output['secure_category'] = first_number(res6)
+        
+        elif output['label'] == 'Tjenesteydelse':
+            prompt4 = format_prompt(prompts[7], dict3)
+            res4, chat = add_message(chat, prompt4, idx, model, {'max_tokens': 35}, -1)
+            output['category'] = classify(res4, ['Byggematerialer', 'El-artikler', 'VVS-dele', 'Rengøringsartikler', 'Andet'])
+
+            prompt5 = format_prompt(prompts[8], dict3)
+            res5, chat = add_message(chat, prompt5, idx, model, {'max_tokens': 200}, -1)
+            output['reason_category'] = res5
+
+            prompt6 = format_prompt(prompts[9], dict3)
+            res6, chat = add_message(chat, prompt6, idx, model, {'max_tokens': 25}, -1)
+            output['secure_category'] = first_number(res6)
+    
+        return output, stats
 
     except Exception as e:
         logging.error(f"Error at {idx}: {repr(e)}")
-        return
-
+        return output, None
 
 # === Main Setup ===
 
@@ -159,23 +196,39 @@ if __name__ == '__main__':
     for idx in range(idx, len(df)):
 
         # Handle row with pipeline
-        result = pipeline(df, df.loc[idx], idx, model, config)
-
+        result, stats = pipeline(df, df.loc[idx], idx, model, config)
+        
         if result is not None:
             df.at[idx, 'Klassificering'] = result.get('label', None)
             df.at[idx, 'Score'] = result.get('secure', None)
-            df.at[idx, 'Begrundelse For'] = result.get('reason_for', None)
-            df.at[idx, 'Begrundelse Imod'] = result.get('reason_against', None)
+            df.at[idx, 'Begrundelse'] = result.get('reason', None)
+            df.at[idx, 'Kategori'] = result.get('category', None)
+            df.at[idx, 'Kategori Score'] = result.get('secure_category', None)
+            df.at[idx, 'Kategori Begrundelse'] = result.get('reason_category', None)
+
+            # Håndter faktura som JSON-streng
+            faktura = result.get('faktura', None)
+            try:
+                faktura_json = json.dumps(faktura, ensure_ascii=False)
+            except Exception as e:
+                faktura_json = None
+                logging.warning(f"Kunne ikke konvertere faktura til JSON ved row {idx}: {repr(e)}")
+            
+            df.at[idx, 'Hele Fakturaen'] = faktura_json
+
         else:
             df.at[idx, 'Klassificering'] = None
             df.at[idx, 'Score'] = None
-            df.at[idx, 'Begrundelse For'] = None
-            df.at[idx, 'Begrundelse Imod'] = None
+            df.at[idx, 'Begrundelse'] = None
+            df.at[idx, 'Kategori'] = None
+            df.at[idx, 'Kategori Score'] = None
+            df.at[idx, 'Kategori Begrundelse'] = None
+            df.at[idx, 'Hele Fakturaen'] = None
 
         # Check and create backup
         check_and_create_backup(df, idx, config)
         
-        logger_msg = f"Row: {idx+1}, Data: {result}"
+        logger_msg = f"-------- Row: {idx+1}, Data: {result} ---- Stats: {stats}"
         webhook_logger(idx, config, logger_msg)
 
 
