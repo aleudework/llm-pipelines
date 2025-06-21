@@ -59,7 +59,7 @@ def webhook_logger(idx, config, message, webhook_url=None, webhook_itr=None):
         if webhook_url is None:
             return
         
-        if webhook_url and (idx + 1) % webhook_itr == 0:
+        if webhook_url and (((idx + 1) % webhook_itr == 0) or idx == 0):
             data = {"content": message}
             requests.post(webhook_url, json=data, timeout=15)
             logging.info('Webhook message sent to server')

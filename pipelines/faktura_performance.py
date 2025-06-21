@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
     print('Script started')
 
-    config_path = '../config/faktura_advanced_fast.yaml'
+    config_path = '../config/faktura_performance.yaml'
 
     # Wrapper does
     # Setup logger
@@ -174,9 +174,6 @@ if __name__ == '__main__':
             df.at[idx, 'Klassificering'] = result.get('label', None)
             df.at[idx, 'Score'] = result.get('secure', None)
             df.at[idx, 'Begrundelse'] = result.get('reason', None)
-            df.at[idx, 'Kategori'] = result.get('category', None)
-            df.at[idx, 'Kategori Score'] = result.get('secure_category', None)
-            df.at[idx, 'Kategori Begrundelse'] = result.get('reason_category', None)
 
             # Håndter faktura som JSON-streng
             faktura = result.get('faktura', None)
@@ -187,15 +184,14 @@ if __name__ == '__main__':
                 logging.warning(f"Kunne ikke konvertere faktura til JSON ved row {idx}: {repr(e)}")
             
             df.at[idx, 'Hele Fakturaen'] = faktura_json
+            df.at[idx, 'Stats'] = stats if stats else None
 
         else:
             df.at[idx, 'Klassificering'] = None
             df.at[idx, 'Score'] = None
             df.at[idx, 'Begrundelse'] = None
-            df.at[idx, 'Kategori'] = None
-            df.at[idx, 'Kategori Score'] = None
-            df.at[idx, 'Kategori Begrundelse'] = None
             df.at[idx, 'Hele Fakturaen'] = None
+            df.at[idx, 'Stats'] = None
 
         # Check and create backup
         check_and_create_backup(df, idx, config)
@@ -203,7 +199,7 @@ if __name__ == '__main__':
         logger_msg = f"-------- Row: {idx+1}, Data: {result} ---- Stats: {stats}"
         webhook_logger(idx, config, logger_msg)
 
-
+    webhook_logger(0, config, 'DONE')
     # Write final output
     write_df(df, config['output'])
     print('Output written')
