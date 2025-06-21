@@ -127,7 +127,7 @@ def pipeline(df, row, idx, model, config):
 
         prompts = load_multiple_prompts(config) # Load all prompts
         chat = create_chat(prompts[0])
-
+        
         dict1 = create_dictionary(df, row, config)
         output['faktura'] = dict1['faktura']
 
