@@ -6,6 +6,7 @@ import pandas as pd
 import logging
 import json
 from pydantic import BaseModel
+import datetime
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "utils")))
 
@@ -157,12 +158,16 @@ if __name__ == '__main__':
 
     config_path = '../config/faktura_performance.yaml'
 
+    start_time = datetime.datetime.now()
+
     # Wrapper does
     # Setup logger
     # Load data or/and backup
     # Load model
     # Backup itr
     df, idx, model, config, backup_itr = wrapper(config_path)
+
+    webhook_logger(0, config, 'STARTED')
 
     # Loop over each row in df
     for idx in range(idx, len(df)):
@@ -200,6 +205,21 @@ if __name__ == '__main__':
         webhook_logger(idx, config, logger_msg)
 
     webhook_logger(0, config, 'DONE')
+
+    end_time = datetime.datetime.now()
+    duration = end_time - start_time
+
+    output_path = config['output']
+    base_path = os.path.splitext(output_path)[0]  # remove extension
+    txt_path = base_path + '_runtime.txt'
+
+    with open(txt_path, 'w', encoding='utf-8') as f:
+        f.write(f"Start: {start_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"End:   {end_time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write(f"Duration: {duration}\n")
+
+    print(f"Runtime written to {txt_path}")
+
     # Write final output
     write_df(df, config['output'])
     print('Output written')
