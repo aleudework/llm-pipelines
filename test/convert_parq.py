@@ -1,7 +1,7 @@
 import pandas as pd
 
-input = '/Users/alhu/VSC/llm-pipelines/backup/faktura_advanced_chat/backup.parquet'
-output = '/Users/alhu/Data/Archive/View_Backup.xlsx'
+input = '/Users/alexander/Downloads/backup250621.parquet'
+output = '/Users/alexander/Downloads/backup250621.xlsx'
 
 df = pd.read_parquet(input)
 
