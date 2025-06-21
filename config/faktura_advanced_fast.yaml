@@ -1,0 +1,24 @@
+model: "qwen/qwen3-235b-a22b"
+project: "faktura_advanced_fast"
+data: "/Users/alhu/Data/Large_Faktura/Faktura20232024.xlsx"
+output: "/Users/alhu/Data/Large_Faktura/output_vigtig.parquet"
+backup_itr: 10
+
+data_params:
+  kreditor: "Kreditor"
+  fakturanummer: "Fakturanummer"
+  linjenummer: "Linjenummer"
+  input_col: "Fakturabeskrivelse"
+  antal: "Antal"
+  stykpris: "Stykpris"
+
+model_params:
+  max_tokens: 4500
+  temperature: 0.7
+
+others:
+  webhook_url: https://discord.com/api/webhooks/1382423391851511858/tKGJMIG1TpUDGjdLFcQlvz6cauWfPZbpUC9XUssbjGwAg_YDPLg0i7849l7ZwBlAmXkn
+  webhook_itr: 25
+
+
+  # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.
