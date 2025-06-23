@@ -1,7 +1,7 @@
 model: "qwen/qwen3-235b-a22b"
 project: "faktura_performance"
 data: "/Users/alhu/VSC/llm-pipelines/data/Faktura_Performance_Dataset.xlsx"
-output: "/Users/alhu/Data/Performance/qwen3_test1.xlsx"
+output: "/Users/alhu/Data/Performance/qwen3_20A.xlsx"
 backup_itr: 1000
 
 data_params:
