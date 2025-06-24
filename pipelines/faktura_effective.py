@@ -21,15 +21,14 @@ from wrapper import wrapper
 # === Schemas ===
 
 # === Functions ===
-
-def get_largest_faktura(df, config, kreditor, fakturabeskrivelse):
+def get_faktura(df, config, kreditor, fakturabeskrivelse, min_lines=1, max_lines=10):
     """
-    For a given supplier (kreditor) and invoice description (fakturabeskrivelse), 
-    find the invoice number (Fakturanummer) that occurs most frequently.
-    Return all invoice lines (sorted by line number) for this invoice as a JSON-like list.
+    For a given supplier and description, 
+    find the first invoice with max_lines, else (max_lines-1), ... down to min_lines.
+    Return lines for that invoice as a list of dicts.
     """
     try: 
-        # Get relevant column names from config
+        # Column names
         col_kreditor = config['data_params_fakturaer']['kreditor']
         col_fakturabeskrivelse = config['data_params_fakturaer']['fakturabeskrivelse']
         col_antal = config['data_params_fakturaer']['antal']
@@ -37,24 +36,31 @@ def get_largest_faktura(df, config, kreditor, fakturabeskrivelse):
         col_linjenummer = config['data_params_fakturaer']['linjenummer']
         col_fakturanummer = config['data_params_fakturaer']['fakturanummer']
 
-        # Filter rows matching both supplier and description
-        filtered = df[(df[col_kreditor] == kreditor) & (df[col_fakturabeskrivelse] == fakturabeskrivelse)]
+        # First filter for kreditor + fakturabeskrivelse to get fakturanummer + kreditor (all relevant fakturaer)
+        filtered_first = df[(df[col_kreditor] == kreditor) & (df[col_fakturabeskrivelse] == fakturabeskrivelse)]
+        # Get all faktura IDs
+        faktura_ids = filtered_first[col_fakturanummer].unique()
+        # Get all fakturaer relevant by the specific kreditor and fakturaID
+        filtered = df[(df[col_kreditor] == kreditor) & (df[col_fakturanummer].isin(faktura_ids))]
 
-        # Return empty if nothing matches
-        if filtered.empty:
-            return []
-        
-        # Find the most common invoice number (the one appearing most times)
-        faktura_mode = filtered[col_fakturanummer].mode()
-        if faktura_mode.empty:
-            return []
-        
-        fakturanummer = faktura_mode.iloc[0]
+        # Group by invoice number, count rows for each invoice
+        faktura_groups = filtered.groupby(col_fakturanummer)
 
-        # Filter to this invoice number and sort by line number
+        # Check for first invoice with n lines, from max_lines down to min_lines
+        for n in range(max_lines, min_lines - 1, -1):
+            # Find all fakturanumre with n lines
+            matching = [f for f, group in faktura_groups if len(group) == n]
+            if matching:
+                # Take the first found
+                fakturanummer = matching[0]
+                break
+        else:
+            return []  # No invoice found
+
+        # Get all rows for that invoice, sorted by line number
         filtered_faktura = filtered[filtered[col_fakturanummer] == fakturanummer].sort_values(by=col_linjenummer)
 
-        # Build result as a list of dictionaries (line, quantity, unit price)
+        # Build result
         result_json = [
             {
                 "fakturalinje": row[col_fakturabeskrivelse],
@@ -66,8 +72,9 @@ def get_largest_faktura(df, config, kreditor, fakturabeskrivelse):
         return result_json
 
     except Exception as e:
-        logging.error(f"Error at {idx}: {repr(e)}")
+        logging.error(f"Error: {repr(e)}")
         return []
+
     
 def add_keys_to_dict(input_dict, keys=None):
     if keys:
@@ -117,7 +124,6 @@ def pipeline(df, df_fakt, row, idx, model, config):
             'reason': None,
             'faktura': None
         }
-        
 
         # Initialize column names
         col_kreditor = config['data_params']['kreditor']
@@ -128,7 +134,10 @@ def pipeline(df, df_fakt, row, idx, model, config):
         chat = create_chat(prompts[0])
 
         # Load largest faktura matching varelinje
-        faktura_json = get_largest_faktura(df_fakt, config, row[col_kreditor], row[col_fakturabeskrivelse])
+        faktura_json = get_faktura(df_fakt, config, row[col_kreditor], row[col_fakturabeskrivelse])
+        logging.info(f"Fakt length {len(faktura_json)}")
+
+        print(faktura_json)
 
         # Create an dict with values for prompts
         input_dict = {
@@ -139,8 +148,9 @@ def pipeline(df, df_fakt, row, idx, model, config):
 
         # Query classification
         first_prompt = format_prompt(prompts[1], input_dict)
-        first_res, chat = add_message(chat, first_prompt, idx, model, {'max_tokens': 35}, -1)
+        first_res, chat = add_message(chat, first_prompt, idx, model, {'max_tokens': 35}, 1)
         output['label'] = classify(first_res, ['Tjenesteydelse', 'Materialeindkøb'])
+
 
         #Update dict
         input_dict = add_keys_to_dict(input_dict, {'klassificering': output['label']})
@@ -150,9 +160,11 @@ def pipeline(df, df_fakt, row, idx, model, config):
         second_res, chat, stats = add_message(chat, second_prompt, idx, model, {'max_tokens': 200}, 1, stats=True)
         output['reason'] = second_res
 
+    
+
         # Query score
         third_prompt = format_prompt(prompts[3], input_dict)
-        third_res, chat = add_message(chat, third_prompt, idx, model, {'max_tokens': 25}, -1)
+        third_res, chat = add_message(chat, third_prompt, idx, model, {'max_tokens': 25}, 1)
         output['secure'] = first_number(third_res)
 
         # Add faktura_json to output
