@@ -1,0 +1,29 @@
+model: "meta-llama-3.1-8b-instruct"
+project: "faktura_effective"
+data: "/Users/alexander/Downloads/Varelinjer_2020_2024_FINAL.parquet"
+data_fakturaer: "/Users/alexander/Downloads/Fakturalinjer_2020_2024.parquet"
+output: "/Users/alexander/Downloads/Indkøbsdata/Varelinjer_Klassificeret.parquet"
+backup_itr: 500
+
+data_params:
+  kreditor: "Kreditor"
+  input_col: "Fakturabeskrivelse"
+
+data_params_fakturaer:
+  kreditor: "Kreditor"
+  fakturabeskrivelse: "Fakturabeskrivelse"
+  antal: "Antal"
+  stykpris: "Stykpris"
+  linjenummer: "Linjenummer"
+  fakturanummer: "Fakturanummer"
+
+model_params:
+  max_tokens: 4500
+  temperature: 0.7
+
+others:
+  webhook_url: https://discord.com/api/webhooks/1382423391851511858/tKGJMIG1TpUDGjdLFcQlvz6cauWfPZbpUC9XUssbjGwAg_YDPLg0i7849l7ZwBlAmXkn
+  webhook_itr: 200
+
+
+  # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.
