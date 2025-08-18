@@ -137,8 +137,6 @@ def pipeline(df, df_fakt, row, idx, model, config):
         faktura_json = get_faktura(df_fakt, config, row[col_kreditor], row[col_fakturabeskrivelse])
         logging.info(f"Fakt length {len(faktura_json)}")
 
-        print(faktura_json)
-
         # Create an dict with values for prompts
         input_dict = {
             'fakturalinje': row[col_fakturabeskrivelse],
@@ -151,6 +149,8 @@ def pipeline(df, df_fakt, row, idx, model, config):
         first_res, chat = add_message(chat, first_prompt, idx, model, {'max_tokens': 35}, 1)
         output['label'] = classify(first_res, ['Tjenesteydelse', 'Materialeindkøb'])
 
+        print(first_res)
+
 
         #Update dict
         input_dict = add_keys_to_dict(input_dict, {'klassificering': output['label']})
@@ -160,7 +160,6 @@ def pipeline(df, df_fakt, row, idx, model, config):
         second_res, chat, stats = add_message(chat, second_prompt, idx, model, {'max_tokens': 200}, 1, stats=True)
         output['reason'] = second_res
 
-    
 
         # Query score
         third_prompt = format_prompt(prompts[3], input_dict)
@@ -169,6 +168,12 @@ def pipeline(df, df_fakt, row, idx, model, config):
 
         # Add faktura_json to output
         output['faktura'] = faktura_json
+        """
+        print(faktura_json)
+        print(row[col_fakturabeskrivelse])
+        print(output['label'])
+        print(output['secure'])
+        """
 
         return output, stats
 

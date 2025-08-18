@@ -63,6 +63,7 @@ def webhook_logger(idx, config, message, webhook_url=None, webhook_itr=None):
             data = {"content": message}
             requests.post(webhook_url, json=data, timeout=15)
             logging.info('Webhook message sent to server')
+
     except Exception as e:
         logging.warning(f"[Webhook] fejl: {e}")
 

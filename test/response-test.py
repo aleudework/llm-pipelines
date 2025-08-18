@@ -52,9 +52,8 @@ def sys_prompt():
 if __name__ == '__main__':
 
 
-    model_name = 'qwen/qwen3-235b-a22b'
+    model_name = 'openai/gpt-oss-120b'
     
-    setup_logger()
 
     system_prompt = sys_prompt()
     logging.info('Data loaded')

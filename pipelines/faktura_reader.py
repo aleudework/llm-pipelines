@@ -138,7 +138,7 @@ if __name__ == '__main__':
     prompt = load_prompt('../prompts/faktura_reader_1.txt')
 
     # Load backup if possible
-    all_new_fakturalinjer, idx = load_backup(config)
+    all_new_fakturalinjer, idx = load_backup(None)
 
     # LOOP
     for idx in range(idx, len(df)):

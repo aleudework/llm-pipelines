@@ -1,11 +1,11 @@
 ### Undersøg billedekvaliteten af pdf til faktura. Umiddelbart måske ikke så høj kvalitet, også undersøg hvad der sker når der ryger 2 billeder ind
 
-model: "qwen2.5-vl-72b-instruct"
+model: "openai/gpt-oss-120b"
 project: "faktura_reader"
 data: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Sample.xlsx"
 output: "/Users/alhu/Data/Faktura_Samples_Small/Faktura_PDF_Output.xlsx"
 pdf_folder: "/Users/alhu/Data/Faktura_Samples_Small"
-backup: /Users/alhu/Data/Faktura_Samples_Small/Backup
+backup: /Users/alhu/Data/Faktura_Samples_Small/
 backup_itr: 3
 log: "../logs/faktura_reader"
 

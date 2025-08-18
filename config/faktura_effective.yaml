@@ -22,8 +22,8 @@ model_params:
   temperature: 0.7
 
 others:
-  webhook_url: https://discord.com/api/webhooks/1382423391851511858/tKGJMIG1TpUDGjdLFcQlvz6cauWfPZbpUC9XUssbjGwAg_YDPLg0i7849l7ZwBlAmXkn
-  webhook_itr: 50
+  webhook_url: https://discord.com/api/webhooks/1388150970667634798/hs-Nr9Q1VJGXjIsrnuH1gjzXo2MzrEomYL5xe1IrAdHnwRZiUkfqE3uGYmNhuhi5vlay
+  webhook_itr: 1000
 
 
   # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.

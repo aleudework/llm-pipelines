@@ -13,7 +13,7 @@ class BookSchema(BaseModel):
 class BookList(BaseModel):
     books: List[BookSchema]
 
-model = lms.llm("meta-llama-3.1-8b-instruct")
+model = lms.llm("openai/gpt-oss-120b")
 
 
 result = model.respond(
@@ -22,6 +22,7 @@ result = model.respond(
 )
 
 # Gå igennem listen
+print(result)
 print(result.parsed['books'][1]['author'])
 
 print('#######')
