@@ -9,9 +9,6 @@ logging.basicConfig(
     format='%(levelname)s: %(message)s'     # Enkel visning af logbeskeder
 )
 
-
-
-
 def create_chat(system_prompt):
     return lms.Chat(system_prompt)
 
@@ -63,7 +60,7 @@ def add_message(chat, message, idx, model, model_config=None, log_every=100):
     return response, chat
 
     
-model_ = lms.llm('qwen/qwen3-235b-a22b')
+model_ = lms.llm('openai/gpt-oss-120b')
 
 
 sys = 'Du er en super hjælpsom chatbot'
@@ -80,4 +77,6 @@ res1, ch = add_message(ch, msg, 0, model_, dic, 1)
 res2, ch = add_message(ch, msg2, 0, model_, {'max_tokens': 5}, 1)
 
 print(res2)
+print(ch)
+print('HER')
 print(ch)

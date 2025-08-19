@@ -1,5 +1,6 @@
 import logging
 import json
+import re
 import lmstudio as lms
 
 
@@ -186,3 +187,12 @@ def add_message(chat, message, idx, model, model_config=None, log_every=100, sta
         return response, chat, result_info.stats
     else:
         return response, chat
+    
+def gpt_oss_message_decoder(text):
+    """
+    Fjerner alt før 'final' og alt efter 'end', hvis noget efter end
+    """
+    match = re.search(r"<\|channel\|>final<\|message\|>(.*?)(?:<\|end\|>|$)", text, re.S)
+    if match:
+        return match.group(1).strip()
+    return text.strip()

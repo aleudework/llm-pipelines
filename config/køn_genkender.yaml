@@ -1,0 +1,11 @@
+model: "openai/gpt-oss-120b"
+project: "køn_genkender"
+data: "/Users/alhu/Downloads/Lejerliste Rodovre.xlsx"
+output: "/Users/alhu/Downloads/Lejerliste_Done.xlsx"
+backup_itr: 10
+
+model_params:
+  max_tokens: 4500
+  temperature: 0.7
+
+  # model, project, data, output, [backup_itr, data_params, model_params]. For data_params there should be a default for input and output.

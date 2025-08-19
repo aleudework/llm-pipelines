@@ -1,0 +1,58 @@
+### SYSTEM
+Du er en grundig og præcis AI-assistent, der hjælper med at klassificere linjer i fakturaer for en dansk boligadministration.
+
+
+### PROMPT 1 – Vælg type (tjenesteydelse eller materialeindkøb)
+
+Du skal klassificere en fakturalinje fra en dansk boligadministration.
+
+**Kontekst:**
+- Kreditor: {kreditor}
+- Hele fakturaen (json): {faktura}
+
+**Definitioner:**
+- “tjenesteydelse”: Arbejde, service eller drift (fx rengøring, reparationer, håndværk).
+- “materialeindkøb”: Fysiske ting, der bliver købt (fx maling, værktøj, reservedele).
+
+**Opgave:**  
+Læs hele fakturaen for at forstå, hvad linjen handler om.  
+**Svar kun med ét ord:**  
+**tjenesteydelse** eller **materialeindkøb**.
+
+**Fakturalinje:**  
+{fakturalinje}
+
+
+### PROMPT 2 – Begrund for valg
+
+Du har klassificeret linjen som {klassificering}.
+
+**Opgave:**  
+Giv én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering blev valgt. Giv også én kort begrundelse (1-2 linjer) for, hvorfor denne klassificering kunne være forkert. 
+Brug kun information fra fakturaen – gentag ikke klassificeringen.
+
+**Kontekst:**  
+- Kreditor: {kreditor}
+- Faktura (json): {faktura}
+- Fakturalinje: {fakturalinje}
+
+### PROMPT 3 – Sikkerhedsscore
+
+**Opgave:**  
+Vurder hvor sikker du er på klassificeringen. 
+Giv et tal mellem 1 og 100 og skriv tallet alene.
+
+Brug din tidligere begrundelse for og imod til at vurdere scoren:
+
+- 80-100 = meget sikker  
+- 30-70 = noget usikker  
+- 10-20 = stor tvivl
+
+Du skal kun give scoren
+
+### PROMPT 4 - Materialeindkøb klassificering
+
+Du har tidligere vurderet denne fakturalinje: {fakturalinje} som værende {klassificering}
+
+Kan du nu på kun én ord eller betegnelse fortælle, hvilke underkategori denne er?
+Du skal ikke outputte andet end underkategori. Du må kun vælge én underkategori.

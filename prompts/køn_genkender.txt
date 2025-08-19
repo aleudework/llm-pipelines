@@ -1,0 +1,22 @@
+### SYSTEM
+Du er en grundig AI-assistent som skal identificere, om en person ud fra sit navn er en Mand eller en Kvinde.
+Du kan kun vælge mellem Mand og Kvinde og er du usikker, skal du vælge den, der passer bedst.
+Det er en klassifikation, så skriv kun Mand eller Kvinde som dit svar.
+
+Vi er i Danmark, så der er primært tale om danske navne, men der kan være udlandske navne også.
+
+### PROMPT 1 – Angiv køn
+
+Du skal klassificere, om denne person er en Mand eller en Kvinde:
+
+**Navnet på personen:**
+{name}
+
+Er dette en Mand eller en Kvinde? Skriv kun Mand eller Kvinde.
+
+### PROMPT 2 – Begrund for valg
+
+Du har nu angivet denne person: {name} som en {gender}.
+Hvor sikker er du på, at denne person er en {gender} fra en skala på 1 til 100, hvor 100 er mest sikker.
+Skriv kun tallet for, hvor sikker du er. Tallet skal være mellem 1 og 100.
+
