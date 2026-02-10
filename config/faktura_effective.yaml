@@ -1,6 +1,8 @@
 model: "qwen/qwen3-235b-a22b"
 project: "faktura_effective"
 data: "/Users/alhu/Data/Indkøbsdata/Indkøbsdata_Parquet/Varelinjer_2020_2024_FINAL.parquet"
+project: "faktura_effective"
+data: "/Users/alhu/Data/Indkøbsdata/Indkøbsdata_Parquet/Varelinjer_2020_2024_FINAL.parquet"
 data_fakturaer: "/Users/alhu/Data/Indkøbsdata/Indkøbsdata_Parquet/Fakturalinjer_2020_2024.parquet"
 output: "/Users/alhu/Data/Indkøbsdata/Output/Varelinjer_Klassificeret.parquet"
 backup_itr: 25

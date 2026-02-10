@@ -1,7 +1,7 @@
-model: "openai/gpt-oss-120b"
+model: "qwen3-235b-a22b-instruct-2507"
 project: "køn_genkender"
-data: "/Users/alhu/Downloads/Lejerliste Rodovre.xlsx"
-output: "/Users/alhu/Downloads/Lejerliste_Done.xlsx"
+data: "/Users/alhu/Downloads/AktiveFælles Data.xlsx"
+output: "/Users/alhu/Downloads/AktiveFælles_Data_Done2.xlsx"
 backup_itr: 10
 
 model_params:
