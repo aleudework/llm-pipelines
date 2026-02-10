@@ -4,6 +4,10 @@ import re
 import lmstudio as lms
 
 
+def load_model(config):
+    model = lms.llm(config['model'])
+    return model
+
 def response(prompt, idx, model, config=None, log_every=100):
     """
     Response with logged stats
