@@ -1,0 +1,7 @@
+model: "qwen/qwen3-235b-a22b"
+project: "etage_retriever"
+data: "/Users/alhu/Data/Large_Faktura/Faktura20232024.xlsx"
+prompt: "/Users/alexander/VSC_Work/llm-pipelines/prompts/etage_retriever.txt"
+output: "/Users/alhu/Data/Large_Faktura/output.parquet"
+backup_itr: 50
+

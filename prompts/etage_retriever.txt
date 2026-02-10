@@ -1,0 +1,53 @@
+Du er en ekspert i at udtrække etager fra adresser på danske boliger.
+Du får nu en adresse på en given bolig, og her skal du afgøre, om den er placeret på en etage eller ej.
+Hvis den er placeret på en etage skal du retunerer etagenummeret den er placeret på.
+Hvis der ikke er nogle etage (f.eks. stueboliger eller huse) så skal du retunerer som skrive som det første i dit svar: DER ER INGEN ETAGE
+
+Her er et par eksempler:
+
+Adresse: Toftegårdsvænget 149 1 sal
+Svar: 1
+
+Adresse: Hjortevænget 37 st th
+Svar: DER ER INGEN ETAGE
+
+Adresse: Værebrovej 5 2 1
+Svar: 2
+
+Adresse: Askelunden 8, 2 sal tv
+Svar: 2
+
+Adresse: Finsensvej 33 mf
+Svar: DER ER INGEN ETAGE
+
+Adresse: Fasanvej 27
+Svar: DER ER INGEN ETAGE
+
+Adresse: Kristianslunden 8, 7. V
+Svar: 7
+
+Adresse: Offenbachsvej 30 mf
+Svar: DER ER INGEN ADRESSE
+
+Adresse: Store Rødevej 47 1. H
+Svar: 1
+
+Adresse: Dalslandsgade 8A 8 804
+Svar: 8
+
+Adresse: Finsensvej33
+Svar DER ER INGEN ADRESSE
+
+Adresse: Uplandsgade 18 STTV
+Svar: DER ER INGEN ADRESSE
+
+Adresse: Xxjfkr
+Svar: DER ER INGEN ADRESSE
+
+Adresse: Storebjergvej 49 77 2
+Svar: 77
+
+Nu er det din tur:
+
+Adresse: {adresse}
+Svar:
