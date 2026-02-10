@@ -5,26 +5,25 @@ from pydantic import BaseModel
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "utils")))
 
 from model_api import Model_API
+from decoder import decode_regex
 
 
 prompt = "giv mig tre ord"
-model = 'meta-llama-3.1-8b-instruct'
+model = 'openai/gpt-oss-20b'
 
 
 model_api = Model_API(model = model)
+
+prompt = "Hvilket sal er boligen på ud fra dens addresse: Hjortevænget 30 ST MF. Retunerer altid etagen først. Giv også en forklaring hertil. Hvis der ikke er en etage, skal du skrive DER ER INGEN ETAGE"
 
 res = model_api.response(prompt=prompt)
 
 print(res)
 
-print ("----")
+print("-----")
 
-prompt = "Er teksten positiv eller negativ? Tekst: Jeg elsker is. Output KUN i JSON"
+regex = r"(?i)der er ingen etage|(?!.*der er ingen etage)\d+"
+out = decode_regex(regex, str(res))
 
-class Classification(BaseModel):
-    label: str
-    confidence: float
+print(out)
 
-res = model_api.response(prompt=prompt, text_format = Classification)
-
-print(res)
