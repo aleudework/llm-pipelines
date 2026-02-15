@@ -82,8 +82,8 @@ Du skal dog være mest obs på adressen.
 
 Herunder kommer de oplysninger, du skal bruge til din klassifikation:
 
-Boligafdelingstekst {beskrivelse}
+Boligafdelingstekst: Ingen Boligafdelingstekst her til at hjælpe. Brug de andre oplysninger.
 
-Boligtype {lejemålstype}
+Boligtype: {lejemålstype}
 
-Boligens adresse {adresse}
+Boligens adresse: {adresse}

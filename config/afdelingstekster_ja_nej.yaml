@@ -1,0 +1,7 @@
+model: openai/gpt-oss-120b
+project: "afdelingstekster_ja_nej"
+data: '/Users/alhu/Data/AI Pipelines/Afdelingstekster/Afdelings-klausuler SAP-udtræk.XLSX'
+prompt: /Users/alhu/VSC/llm-pipelines/prompts/afdelingstekster_ja_nej.txt
+output: '/Users/alhu/Data/AI Pipelines/Afdelingstekster/Afdelings-klausuler SAP-udtræk_ja_nej.xlsx'
+backup_itr: 5
+

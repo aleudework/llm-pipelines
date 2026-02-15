@@ -1,0 +1,7 @@
+model: qwen3-235b-a22b-instruct-2507
+project: "etage_retriever_uden_afdtekst"
+data: '/Users/alhu/Data/AI Pipelines/Etager til lejemål/20260214/input/lejemålsadresser_260214.xlsx'
+prompt: /Users/alhu/VSC/llm-pipelines/prompts/etage_retriever_uden_afdtekst.txt
+output: '/Users/alhu/Data/AI Pipelines/Etager til lejemål/20260214/output/lejemålsetager_uden_afd_tekst.xlsx'
+backup_itr: 100
+

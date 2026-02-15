@@ -45,8 +45,7 @@ def pipeline(row, model, config):
         # Prompt building
         prompt_params = {
             "adresse": row["Adresse"],
-            "lejemålstype": row["Lejemålstype"],
-            "beskrivelse": row["Beskrivelse"]
+            "lejemålstype": row["Lejemålstype"]
         }
 
         prompt = build_prompt(config['prompt'], prompt_params)
@@ -94,7 +93,7 @@ if __name__ == '__main__':
     print('Script started')
 
     # Load config
-    config_path = '../config/etage_retriever.yaml'
+    config_path = '../config/etage_retriever_uden_afdtekst.yaml'
     config = load_config(config_path)
 
     # Setup logger
